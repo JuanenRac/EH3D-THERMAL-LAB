@@ -6,7 +6,7 @@
 
 <p align="center">🇺🇸 <b>English</b> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### EH3D-THERMAL-LAB: planned as a thermal simulation lab coupled to the physical design. No code yet.
+### EH3D-THERMAL-LAB: stage-1 thermal estimates: the heating of a copper trace and simplified thermal networks, where every result states its hypotheses, conditions and limits. Early code.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
@@ -19,7 +19,7 @@
 
 ---
 
-**Honesty check - what actually runs today:** nothing. EH3D-THERMAL-LAB is only planned: it has no code, no tests of its own and has never run. What exists is the base every repository of the suite carries, plus the written scope, requirements, dependencies, threat model and decisions in `docs/`.
+**Honesty check - what actually runs today:** a Rust library and a command line that compute the temperature rise of a copper trace that carries a current (Joule effect, with the resistance growing with the temperature, cooled by convection) and across a network of thermal resistances in series and parallel. A result is only accepted with its hypotheses, boundary conditions, materials, uncertainty, limitations and range of validity; a case that gets too hot or does not converge gives no number. All of it has run only on cases made by its own tests and compared with closed-form values; nothing was compared with a solver or a measurement. What does not exist: the use of losses from the simulation domain, the coupling with the mechanical geometry and the comparison with measurements.
 
 ---
 
@@ -46,14 +46,14 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Repository checks | 🟡 | The repository check, the check of the pictures and the 3 tests of the base run in CI and pass. |
-| Tests | 🟠 | Only the base has tests (3); the code of the repository will get its own as it is written. |
+| Tests | 🟡 | 21 tests of the Rust code and the 3 of the base pass on a computer. They use only cases made by the tests themselves and closed-form values. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
-| Planned function | 🔴 | Not started: none of the planned function has been written. |
-| Requirements | 🔴 | Every requirement is only planned: none is implemented or verified. |
+| Planned function | 🟠 | Written: the Joule heating of a trace, the series and parallel network, the result that refuses to exist without its conditions and the refusal of cases out of range or without convergence. Not written: heat sources from the simulation domain, the geometry of the mechanical tool and the comparison with measurements. |
+| Requirements | 🟠 | 4 of the 7 requirements are at prototype; the heat sources, the coupling with the geometry and the comparison with measurements are only planned. None is validated. |
 
 ## 🎯 Overview
 
-* **Planned:** EH3D-THERMAL-LAB is meant to be a thermal simulation lab coupled to the physical design. It is planned as a library without a window, with a command-line interface and, when it applies, a kind of server task. None of this exists yet.
+* **What exists:** a library and a command line, without a window, that compute the heating of a trace (`trace`), the rise across a thermal network (`network`) and check that a result carries all its conditions (`check`). **Planned:** heat sources from the simulation domain, the coupling with the geometry and the comparison with measurements.
 
 ## 🧩 Role in EH3D
 
@@ -105,6 +105,8 @@ EH3D-THERMAL-LAB/
 │   ├── NOT_YET.md RULES.md                      ideas left for later and rules for writing code
 │   └── adr/                                     the accepted decision records
 ├── AGENTS.md                                    rules for anyone who changes the repository
+├── src/                                         the library and the command line
+├── Cargo.toml Cargo.lock deny.toml              Rust package and policy of the dependencies
 ├── tools/                                       the repository check, its tests and the picture tools
 ├── images/                                      banner and the Architecture and Repository Structure pictures
 ├── .github/                                     CI and dashboard workflows, issue and pull-request templates
@@ -121,7 +123,7 @@ EH3D-THERMAL-LAB/
 
 **Known limits today**
 
-* Planned only: there is no code, nothing has been run and no requirement is implemented.
+* Early code: every result is an estimate that has not been compared with a solver or a measurement, and its uncertainty is a placeholder set in the settings.
 
 **Next**
 

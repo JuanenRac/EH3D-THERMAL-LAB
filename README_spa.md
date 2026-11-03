@@ -6,7 +6,7 @@
 
 <p align="center"><a href="README.md">🇺🇸 English</a> | 🇪🇸 <b>Español</b> | <a href="README_fra.md">🇫🇷 Français</a> | <a href="README_ita.md">🇮🇹 Italiano</a> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### EH3D-THERMAL-LAB: planificado como un laboratorio de simulación térmica acoplado al diseño físico. Todavía sin código.
+### EH3D-THERMAL-LAB: estimaciones térmicas de la etapa 1: el calentamiento de una pista de cobre y redes térmicas simplificadas, donde cada resultado dice sus hipótesis, condiciones y límites. Código inicial.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
@@ -19,7 +19,7 @@
 
 ---
 
-**Comprobación de honestidad - lo que se ejecuta hoy:** nada. EH3D-THERMAL-LAB solo está planificado: no tiene código, ni pruebas propias, y nunca se ha ejecutado. Lo que existe es la base que lleva todo repositorio de la suite, más el alcance, los requisitos, las dependencias, el modelo de amenazas y las decisiones escritos en `docs/`.
+**Comprobación de honestidad - lo que se ejecuta hoy:** una biblioteca de Rust y una línea de comandos que calculan el aumento de temperatura de una pista de cobre con corriente (efecto Joule, con la resistencia creciendo con la temperatura, enfriada por convección) y a través de una red de resistencias térmicas en serie y en paralelo. Un resultado solo se acepta con sus hipótesis, condiciones de contorno, materiales, incertidumbre, limitaciones y rango de validez; un caso que se calienta demasiado o no converge no da ningún número. Todo se ha ejecutado solo con casos hechos por sus propias pruebas y comparados con valores de fórmula cerrada; nada se comparó con un solucionador ni con una medida. Lo que no existe: el uso de pérdidas del dominio de simulación, el acoplamiento con la geometría mecánica y la comparación con medidas.
 
 ---
 
@@ -46,14 +46,14 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Comprobaciones del repositorio | 🟡 | La comprobación del repositorio, la de las imágenes y las 3 pruebas de la base se ejecutan en el CI y pasan. |
-| Pruebas | 🟠 | Solo la base tiene pruebas (3); el código del repositorio tendrá las suyas a medida que se escriba. |
+| Pruebas | 🟡 | Las 21 pruebas del código Rust y las 3 de la base pasan en un ordenador. Usan solo casos hechos por las propias pruebas y valores de fórmula cerrada. |
 | Hardware real | 🟠 | No se ha ejecutado en ninguna máquina ni placa: nada de aquí se ha probado en hardware. |
-| Función planificada | 🔴 | Sin empezar: nada de la función planificada está escrito. |
-| Requisitos | 🔴 | Todos los requisitos están solo planificados: ninguno está implementado ni verificado. |
+| Función planificada | 🟠 | Escrito: el calentamiento Joule de una pista, la red en serie y en paralelo, el resultado que se niega a existir sin sus condiciones y el rechazo de casos fuera de rango o sin convergencia. Sin escribir: fuentes de calor del dominio de simulación, la geometría de la herramienta mecánica y la comparación con medidas. |
+| Requisitos | 🟠 | 4 de los 7 requisitos están en prototipo; las fuentes de calor, el acoplamiento con la geometría y la comparación con medidas solo están planificados. Ninguno está validado. |
 
 ## 🎯 Resumen
 
-* **Planificado:** EH3D-THERMAL-LAB pretende ser un laboratorio de simulación térmica acoplado al diseño físico. Se planea como una biblioteca sin ventana, con interfaz de línea de comandos y, cuando proceda, un tipo de tarea del servidor. Nada de esto existe todavía.
+* **Lo que existe:** una biblioteca y una línea de comandos, sin ventana, que calculan el calentamiento de una pista (`trace`), el aumento a través de una red térmica (`network`) y comprueban que un resultado lleva todas sus condiciones (`check`). **Planificado:** fuentes de calor del dominio de simulación, el acoplamiento con la geometría y la comparación con medidas.
 
 ## 🧩 Papel en EH3D
 
@@ -105,6 +105,8 @@ EH3D-THERMAL-LAB/
 │   ├── NOT_YET.md RULES.md                      ideas para más adelante y reglas para escribir código
 │   └── adr/                                     los registros de decisiones aceptadas
 ├── AGENTS.md                                    reglas para quien cambia el repositorio
+├── src/                                         la biblioteca y la línea de comandos
+├── Cargo.toml Cargo.lock deny.toml              paquete de Rust y política de dependencias
 ├── tools/                                       la comprobación del repositorio, sus pruebas y las herramientas de las imágenes
 ├── images/                                      banner y las imágenes de Arquitectura y Estructura del repositorio
 ├── .github/                                     flujos de CI y del panel, plantillas de issues y pull requests
@@ -121,7 +123,7 @@ EH3D-THERMAL-LAB/
 
 **Límites conocidos hoy**
 
-* Solo planificado: no hay código, no se ha ejecutado nada y ningún requisito está implementado.
+* Código inicial: todo resultado es una estimación no comparada con un solucionador ni con una medida, y su incertidumbre es un valor provisional fijado en la configuración.
 
 **Siguiente**
 

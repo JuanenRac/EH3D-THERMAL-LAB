@@ -6,7 +6,7 @@
 
 <p align="center"><a href="README.md">🇺🇸 English</a> | <a href="README_spa.md">🇪🇸 Español</a> | <a href="README_fra.md">🇫🇷 Français</a> | 🇮🇹 <b>Italiano</b> | <a href="README_deu.md">🇩🇪 Deutsch</a> | <a href="README_zho.md">🇨🇳 中文</a> | <a href="README_jpn.md">🇯🇵 日本語</a> | <a href="README_por.md">🇵🇹 Português</a></p>
 
-### EH3D-THERMAL-LAB: pianificato come un laboratorio di simulazione termica accoppiato al progetto fisico. Ancora senza codice.
+### EH3D-THERMAL-LAB: stime termiche della fase 1: il riscaldamento di una pista di rame e reti termiche semplificate, dove ogni risultato dichiara ipotesi, condizioni e limiti. Codice iniziale.
 
 <p align="center">
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
@@ -19,7 +19,7 @@
 
 ---
 
-**Verifica di onestà - cosa funziona oggi:** niente. EH3D-THERMAL-LAB è solo pianificato: non ha codice, né test propri, e non è mai stato eseguito. Esistono la base che ogni repository della suite porta con sé, più l'ambito, i requisiti, le dipendenze, il modello delle minacce e le decisioni scritti in `docs/`.
+**Verifica di onestà - cosa funziona oggi:** una libreria Rust e una riga di comando che calcolano l'aumento di temperatura di una pista di rame percorsa da corrente (effetto Joule, resistenza che cresce con la temperatura, raffreddamento per convezione) e attraverso una rete di resistenze termiche in serie e in parallelo. Un risultato è accettato solo con ipotesi, condizioni al contorno, materiali, incertezza, limitazioni e intervallo di validità; un caso che si scalda troppo o non converge non dà alcun numero. Tutto è stato eseguito solo su casi prodotti dai propri test e confrontati con valori di formula chiusa; nulla è stato confrontato con un risolutore o con una misura. Non esistono: l'uso delle perdite del dominio di simulazione, l'accoppiamento con la geometria meccanica e il confronto con le misure.
 
 ---
 
@@ -46,14 +46,14 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Controlli del repository | 🟡 | Il controllo del repository, quello delle immagini e i 3 test della base girano nella CI e passano. |
-| Test | 🟠 | Solo la base ha test (3); il codice del repository avrà i propri man mano che viene scritto. |
+| Test | 🟡 | I 21 test del codice Rust e i 3 della base passano su un computer. Usano solo casi prodotti dai test stessi e valori di formula chiusa. |
 | Hardware reale | 🟠 | Non eseguito su nessuna macchina né scheda: nulla qui è stato provato su hardware. |
-| Funzione pianificata | 🔴 | Non iniziata: nulla della funzione pianificata è stato scritto. |
-| Requisiti | 🔴 | Tutti i requisiti sono solo pianificati: nessuno è implementato o verificato. |
+| Funzione pianificata | 🟠 | Scritto: il riscaldamento Joule di una pista, la rete in serie e in parallelo, il risultato che rifiuta di esistere senza le sue condizioni e il rifiuto dei casi fuori intervallo o senza convergenza. Non scritto: le sorgenti di calore del dominio di simulazione, la geometria dello strumento meccanico e il confronto con le misure. |
+| Requisiti | 🟠 | 4 dei 7 requisiti sono a livello di prototipo; le sorgenti di calore, l'accoppiamento con la geometria e il confronto con le misure sono solo pianificati. Nessuno è validato. |
 
 ## 🎯 Panoramica
 
-* **Pianificato:** EH3D-THERMAL-LAB vuole essere un laboratorio di simulazione termica accoppiato al progetto fisico. È pensato come una libreria senza finestra, con interfaccia a riga di comando e, quando serve, un tipo di attività del server. Nulla di tutto questo esiste ancora.
+* **Cosa esiste:** una libreria e una riga di comando, senza finestra, che calcolano il riscaldamento di una pista (`trace`), l'aumento attraverso una rete termica (`network`) e verificano che un risultato porti tutte le sue condizioni (`check`). **Pianificato:** sorgenti di calore del dominio di simulazione, l'accoppiamento con la geometria e il confronto con le misure.
 
 ## 🧩 Ruolo in EH3D
 
@@ -105,6 +105,8 @@ EH3D-THERMAL-LAB/
 │   ├── NOT_YET.md RULES.md                      idee per dopo e regole per scrivere il codice
 │   └── adr/                                     i registri delle decisioni accettate
 ├── AGENTS.md                                    regole per chi modifica il repository
+├── src/                                         la libreria e la riga di comando
+├── Cargo.toml Cargo.lock deny.toml              pacchetto Rust e politica delle dipendenze
 ├── tools/                                       il controllo del repository, i suoi test e gli strumenti delle immagini
 ├── images/                                      banner e le immagini di Architettura e Struttura del repository
 ├── .github/                                     workflow di CI e della dashboard, modelli di issue e pull request
@@ -121,7 +123,7 @@ EH3D-THERMAL-LAB/
 
 **Limiti noti oggi**
 
-* Solo pianificato: non c'è codice, non è stato eseguito nulla e nessun requisito è implementato.
+* Codice iniziale: ogni risultato è una stima non confrontata con un risolutore né con una misura, e la sua incertezza è un valore provvisorio impostato nelle impostazioni.
 
 **Prossimi passi**
 
