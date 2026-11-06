@@ -1,6 +1,6 @@
 [package]
 name = "eh3d-thermal-lab"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 rust-version = "1.88"
 description = "Stage-1 thermal estimates: analytic calculations and simplified thermal networks whose every result states its hypotheses, conditions and limits"

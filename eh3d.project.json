@@ -2,7 +2,7 @@
   "schema_version": "1.1",
   "ecosystem": "EH3D",
   "name": "EH3D-THERMAL-LAB",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "role": "tool",
   "stack": "rust",
   "technologies": [
@@ -17,7 +17,7 @@
   "family": "PHOENIX",
   "parent": null,
   "build": "cargo build --release; cargo test",
-  "notes": "Scaffolding v0.0.1: early code. A Rust library and command line that compute the temperature rise of a copper trace with a current (Joule effect with temperature-dependent resistance, cooling by convection) and across a series and parallel network of thermal resistances, and refuse a result that lacks hypotheses, boundary conditions, materials, uncertainty, limitations or range of validity; a case out of range or without convergence gives no number. It has only run on cases made by its own tests and closed-form values; nothing was compared with a solver or a measurement, and the heat sources, the geometry coupling and the comparison with measurements are not written.",
+  "notes": "Scaffolding v0.0.2: early code. A Rust library and command line that compute the temperature rise of a copper trace with a current (Joule effect with temperature-dependent resistance, cooling by convection) and across a series and parallel network of thermal resistances, and refuse a result that lacks hypotheses, boundary conditions, materials, uncertainty, limitations or range of validity; a case out of range or without convergence gives no number. It has only run on cases made by its own tests and closed-form values; nothing was compared with a solver or a measurement, and the heat sources, the geometry coupling and the comparison with measurements are not written.",
   "native_version": {
     "file": "VERSION",
     "pattern": "^(\\d+\\.\\d+\\.\\d+)"

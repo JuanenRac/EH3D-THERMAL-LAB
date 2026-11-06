@@ -3,6 +3,9 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
+
+## [0.0.2] - First release: the library, the command line, the stable error codes and the tests
+
 - Add the library: the temperature rise of a copper trace with a current (Joule effect with temperature-dependent resistance, cooling by convection) and across a network of thermal resistances in series and parallel.
 - Refuse a result that lacks hypotheses, boundary conditions, materials, uncertainty, limitations or range of validity, and give no number for a case out of range or without convergence, with stable codes `PHOENIX-THLA-001` to `PHOENIX-THLA-004`.
 - Add the command line (`trace`, `network`, `check`) and a settings file for the material values, the range and the iteration; run format, lints and tests of the Rust code on Linux and Windows in the CI.
