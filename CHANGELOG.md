@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **A simulated bench (`sim`):** a thermocouple on the trace made of the model itself with an offset, noise, a drift, dropouts, a sensor that has not connected yet, one that sticks and one that saturates, and a ramp of the current that ends at the first current the model refuses, with a verdict for each step (the reading agrees with the uncertainty of the result, the model says too little or too much, no reading, no number from the model). It lets the comparison with a reading be tried on every kind of bad reading before there is a bench; the plant is the model, so it says nothing about how good the model is. Eight new tests (29 in all) with fixed seeds cover each fault and 30 seeded campaigns. Nothing was measured.
+
 ## [0.0.3] - Shared validation checks, split CI workflows and pinned Rust toolchain
 
 - **The shared validation tools are updated:** the validator also runs the workflow and lessons checks of the suite with their latest rules, including a check to run before every push.

@@ -46,7 +46,7 @@ Jede Zeile ist ein Teil dieses Repositorys, und die Ampel sagt, wie weit er heut
 | Bereich | Stand | Was das hier bedeutet |
 |---|---|---|
 | Repository-Prüfungen | 🟡 | Die Repository-Prüfung, die Prüfung der Bilder und die 3 Tests der Basis laufen in der CI und bestehen. |
-| Tests | 🟡 | Die 21 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Fälle der Tests selbst und Werte geschlossener Formeln. |
+| Tests | 🟡 | Die 29 Tests des Rust-Codes und die 3 der Basis bestehen auf einem Rechner. Sie verwenden nur Fälle der Tests selbst und Werte geschlossener Formeln sowie ein simuliertes Thermoelement an der Leiterbahn (Versatz, Rauschen, Drift, Aussetzer, ein Sensor, der hängt oder sättigt) mit einer Stromrampe, die dort endet, wo das Modell ablehnt. |
 | Echte Hardware | 🟠 | Auf keiner Maschine und keiner Platine ausgeführt: nichts hier wurde auf Hardware ausprobiert. |
 | Geplante Funktion | 🟠 | Geschrieben: die Joulesche Erwärmung einer Leiterbahn, das Reihen- und Parallelnetzwerk, das Ergebnis, das ohne seine Bedingungen nicht existiert, und die Ablehnung von Fällen außerhalb des Bereichs oder ohne Konvergenz. Nicht geschrieben: Wärmequellen aus der Simulationsdomäne, die Geometrie des mechanischen Werkzeugs und der Vergleich mit Messungen. |
 | Anforderungen | 🟠 | 4 der 7 Anforderungen sind im Prototyp; die Wärmequellen, die Kopplung mit der Geometrie und der Vergleich mit Messungen sind nur geplant. Keine ist validiert. |
