@@ -19,4 +19,4 @@ The official state of each capability is in REQUIREMENTS.md: 7 requirements: 4 `
 
 ## Known technical debt and omitted tests
 
-21 tests of the Rust code and the 3 of the base; the Rust tests compare with closed-form values and never touch real data. Not tested: a comparison with a solver or a measurement. `cargo deny` is not run yet.
+29 tests of the Rust code and the 3 of the base; the Rust tests compare with closed-form values and never touch real data. Not tested: a comparison with a solver or a measurement. `cargo deny` is not run yet.
