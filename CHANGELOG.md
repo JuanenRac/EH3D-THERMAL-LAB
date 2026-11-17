@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+- **The threat model says what the code already does:** the rows of `docs/THREAT_MODEL.md` that have a mitigation in the code and a test for it are marked `partial` and name the tests and what is still not covered; the rows without either stay `planned`.
+
 - **A simulated bench (`sim`):** a thermocouple on the trace made of the model itself with an offset, noise, a drift, dropouts, a sensor that has not connected yet, one that sticks and one that saturates, and a ramp of the current that ends at the first current the model refuses, with a verdict for each step (the reading agrees with the uncertainty of the result, the model says too little or too much, no reading, no number from the model). It lets the comparison with a reading be tried on every kind of bad reading before there is a bench; the plant is the model, so it says nothing about how good the model is. Eight new tests (29 in all) with fixed seeds cover each fault and 30 seeded campaigns. Nothing was measured.
 
 ## [0.0.3] - Shared validation checks, split CI workflows and pinned Rust toolchain
