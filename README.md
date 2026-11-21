@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-68-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.3-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
@@ -31,7 +31,7 @@
 |---|---|
 | Version | `0.0.3` |
 | Maturity | Scaffolding |
-| Tests | 3 |
+| Tests | 68 |
 | Stack | Markdown, Python 3.10+ |
 | On real hardware | Not run on hardware yet |
 
@@ -45,8 +45,8 @@ Each line is one part of this repository and the light says how far it is today.
 
 | Area | State | What it means here |
 |---|---|---|
-| Repository checks | 🟡 | The repository check, the check of the pictures and the 3 tests of the base run in CI and pass. |
-| Tests | 🟡 | 38 tests of the Rust code and the 3 of the base pass on a computer. They use only cases made by the tests themselves and closed-form values, and a simulated thermocouple on the trace (offset, noise, drift, dropouts, a sensor that sticks or saturates) with a current ramp that ends where the model refuses. |
+| Repository checks | 🟡 | The repository check, the check of the pictures and the 68 tests of the base run in CI and pass. |
+| Tests | 🟡 | 60 tests of the Rust code and the 68 of the base pass on a computer. They use only cases made by the tests themselves and closed-form values, and a simulated thermocouple on the trace (offset, noise, drift, dropouts, a sensor that sticks or saturates) with a current ramp that ends where the model refuses. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
 | Planned function | 🟠 | Written: the Joule heating of a trace, the series and parallel network, the result that refuses to exist without its conditions and the refusal of cases out of range or without convergence. Not written: heat sources from the simulation domain, the geometry of the mechanical tool and the comparison with measurements. |
 | Requirements | 🟠 | 4 of the 7 requirements are at prototype; the heat sources, the coupling with the geometry and the comparison with measurements are only planned. None is validated. |
@@ -80,7 +80,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Testing
 
-The base has 3 tests (`python -I -m unittest discover -s tools -p "test_*.py"`), and they pass. The CI runs the repository check, the check of the pictures and those tests.
+The base has 68 tests (`python -I -m unittest discover -s tools -p "test_*.py"`), and they pass. The CI runs the repository check, the check of the pictures and those tests.
 
 ## 🏗️ Build & Release
 

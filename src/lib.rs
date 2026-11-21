@@ -381,5 +381,84 @@ pub mod sim {
             let drawn: Vec<u64> = (0..8).map(|_| rng.below(1_000_000)).collect();
             assert!(drawn.windows(2).any(|w| w[0] != w[1]));
         }
+
+        #[test]
+        fn the_judge_stops_exactly_on_the_edge_of_the_tolerance() {
+            let edge = |reading: f64| judge(Some(100.0), Some(reading), 10.0, 1.0);
+            assert_eq!(edge(111.0), Verdict::Agrees);
+            assert_eq!(edge(111.0001), Verdict::ModelLow);
+            assert_eq!(edge(89.0), Verdict::Agrees);
+            assert_eq!(edge(88.9999), Verdict::ModelHigh);
+            assert_eq!(judge(Some(5.0), Some(5.0), 0.0, 0.0), Verdict::Agrees);
+        }
+
+        #[test]
+        fn the_tolerance_of_a_negative_model_value_is_the_same_as_of_its_opposite() {
+            assert_eq!(
+                judge(Some(-100.0), Some(-111.0), 10.0, 1.0),
+                Verdict::Agrees
+            );
+            assert_eq!(
+                judge(Some(-100.0), Some(-120.0), 10.0, 1.0),
+                Verdict::ModelHigh
+            );
+        }
+
+        #[test]
+        fn the_codes_are_written_in_order_and_none_repeats() {
+            use crate::Code;
+            let all = [
+                Code::MissingConditions,
+                Code::OutOfValidity,
+                Code::NotConverged,
+                Code::BadInput,
+            ];
+            let texts: Vec<&str> = all.iter().map(|c| c.as_str()).collect();
+            assert_eq!(
+                texts,
+                [
+                    "PHOENIX-THLA-001",
+                    "PHOENIX-THLA-002",
+                    "PHOENIX-THLA-003",
+                    "PHOENIX-THLA-004"
+                ]
+            );
+        }
+
+        #[test]
+        fn a_ramp_without_currents_is_empty_and_one_with_a_single_current_has_one_point() {
+            let cfg = Config::default();
+            let mut sensor = SimThermocouple::perfect(7);
+            assert!(ramp(&case(), &cfg, &[], &mut sensor).is_empty());
+            let one = ramp(&case(), &cfg, &[1.5], &mut sensor);
+            assert_eq!(one.len(), 1);
+            assert_eq!(one[0].current_a, 1.5);
+        }
+
+        #[test]
+        fn the_points_of_a_ramp_keep_the_order_of_the_currents() {
+            let points = ramp(
+                &case(),
+                &Config::default(),
+                &SAFE,
+                &mut SimThermocouple::perfect(3),
+            );
+            let currents: Vec<f64> = points.iter().map(|p| p.current_a).collect();
+            assert_eq!(currents, SAFE);
+        }
+
+        #[test]
+        fn the_generator_gives_the_same_numbers_for_the_same_seed_and_stays_below_the_bound() {
+            let mut a = SimRng::new(42);
+            let mut b = SimRng::new(42);
+            let mut c = SimRng::new(43);
+            let first: Vec<u64> = (0..64).map(|_| a.below(1000)).collect();
+            let second: Vec<u64> = (0..64).map(|_| b.below(1000)).collect();
+            let other: Vec<u64> = (0..64).map(|_| c.below(1000)).collect();
+            assert_eq!(first, second);
+            assert_ne!(first, other);
+            assert!(first.iter().all(|&n| n < 1000));
+            assert_eq!(SimRng::new(9).below(1), 0);
+        }
     }
 }

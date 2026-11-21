@@ -222,4 +222,113 @@ mod tests {
             Err(ThlaError::OutOfValidity { .. })
         ));
     }
+
+    #[test]
+    fn the_length_of_the_trace_does_not_change_the_rise() {
+        let cfg = Config::default();
+        let short = temperature_rise(&case(), &cfg).unwrap().value;
+        for length in [10.0, 1000.0, 50_000.0] {
+            let mut c = case();
+            c.length_mm = length;
+            let rise = temperature_rise(&c, &cfg).unwrap().value;
+            assert!(
+                (rise - short).abs() < 1e-6 * short,
+                "{length}: {rise} {short}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_wider_trace_and_a_thicker_one_rise_less() {
+        let cfg = Config::default();
+        let base = temperature_rise(&case(), &cfg).unwrap().value;
+        let mut wide = case();
+        wide.width_mm = 4.0;
+        assert!(temperature_rise(&wide, &cfg).unwrap().value < base);
+        let mut thick = case();
+        thick.thickness_um = 70.0;
+        assert!(temperature_rise(&thick, &cfg).unwrap().value < base);
+    }
+
+    #[test]
+    fn the_same_case_gives_the_same_result_every_time() {
+        let cfg = Config::default();
+        let a = temperature_rise(&case(), &cfg).unwrap();
+        let b = temperature_rise(&case(), &cfg).unwrap();
+        assert_eq!(a, b);
+        assert_eq!(a.to_json(), b.to_json());
+    }
+
+    #[test]
+    fn an_ambient_below_zero_or_at_the_highest_temperature_is_out_of_validity() {
+        let cfg = Config::default();
+        for ambient in [-0.1, 125.0, 200.0] {
+            let mut c = case();
+            c.ambient_c = ambient;
+            assert!(
+                matches!(
+                    temperature_rise(&c, &cfg),
+                    Err(ThlaError::OutOfValidity { .. })
+                ),
+                "{ambient}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_lower_highest_temperature_turns_a_case_into_out_of_validity() {
+        let strict = Config {
+            max_temperature_c: 30.0,
+            ..Config::default()
+        };
+        assert!(matches!(
+            temperature_rise(&case(), &strict),
+            Err(ThlaError::OutOfValidity { .. })
+        ));
+        assert!(temperature_rise(&case(), &Config::default()).is_ok());
+    }
+
+    #[test]
+    fn numbers_at_the_extremes_give_an_error_or_a_finite_rise_and_never_a_panic() {
+        let cfg = Config::default();
+        let extremes = [1e-300, 1e-12, 1e12, 1e300, f64::MAX, f64::MIN_POSITIVE];
+        let edits: [fn(&mut TraceCase, f64); 5] = [
+            |c, v| c.current_a = v,
+            |c, v| c.length_mm = v,
+            |c, v| c.width_mm = v,
+            |c, v| c.thickness_um = v,
+            |c, v| c.convection_w_m2k = v,
+        ];
+        for edit in edits {
+            for value in extremes {
+                let mut c = case();
+                edit(&mut c, value);
+                if let Ok(r) = temperature_rise(&c, &cfg) {
+                    assert!(r.value.is_finite() && r.value >= 0.0, "{value}");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn the_result_names_the_range_of_the_settings_and_the_uncertainty_of_the_settings() {
+        let cfg = Config {
+            uncertainty_percent: 33.0,
+            max_temperature_c: 150.0,
+            ..Config::default()
+        };
+        let r = temperature_rise(&case(), &cfg).unwrap();
+        assert_eq!(r.uncertainty_percent, 33.0);
+        assert_eq!(r.validity.as_ref().unwrap().max, 150.0);
+        assert_eq!(r.unit, "K");
+        assert_eq!(r.quantity, "temperature_rise");
+    }
+
+    #[test]
+    fn a_case_with_an_unknown_field_is_refused_when_it_is_read() {
+        let text = r#"{"current_a":1,"length_mm":1,"width_mm":1,"thickness_um":1,"ambient_c":20,"convection_w_m2k":1,"emissivity":0.9}"#;
+        assert!(serde_json::from_str::<TraceCase>(text).is_err());
+        let ok = r#"{"current_a":1,"length_mm":1,"width_mm":1,"thickness_um":1,"ambient_c":20,"convection_w_m2k":1}"#;
+        assert!(serde_json::from_str::<TraceCase>(ok).is_ok());
+    }
 }

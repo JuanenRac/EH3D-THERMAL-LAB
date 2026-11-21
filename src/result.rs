@@ -208,4 +208,99 @@ mod tests {
             Err(ThlaError::BadJson(_))
         ));
     }
+
+    #[test]
+    fn a_name_of_spaces_and_a_value_that_is_infinite_are_reported() {
+        let mut r = complete();
+        r.quantity = "  ".into();
+        r.value = f64::INFINITY;
+        let subjects: Vec<&str> = r.check().iter().map(|f| f.subject).collect();
+        assert_eq!(subjects, ["quantity", "value"]);
+    }
+
+    #[test]
+    fn an_uncertainty_that_is_negative_or_not_a_number_is_reported_and_a_small_one_is_not() {
+        for bad in [-1.0, 0.0, f64::NAN, f64::INFINITY] {
+            let mut r = complete();
+            r.uncertainty_percent = bad;
+            let found = r.check();
+            assert_eq!(found.len(), 1, "{bad}");
+            assert_eq!(found[0].subject, "uncertainty_percent");
+        }
+        let mut r = complete();
+        r.uncertainty_percent = 0.001;
+        assert!(r.check().is_empty());
+    }
+
+    #[test]
+    fn a_range_with_a_name_of_spaces_or_a_bound_that_is_not_finite_is_not_usable() {
+        let edits: [fn(&mut Validity); 3] = [
+            |v| v.quantity = " ".into(),
+            |v| v.min = f64::NEG_INFINITY,
+            |v| v.max = f64::NAN,
+        ];
+        for edit in edits {
+            let mut r = complete();
+            edit(r.validity.as_mut().unwrap());
+            assert_eq!(r.check().len(), 1);
+        }
+    }
+
+    #[test]
+    fn a_range_with_equal_bounds_is_usable() {
+        let mut r = complete();
+        let v = r.validity.as_mut().unwrap();
+        v.min = 50.0;
+        v.max = 50.0;
+        assert!(r.check().is_empty());
+    }
+
+    #[test]
+    fn the_json_of_a_result_is_the_same_bytes_every_time_and_names_the_kind_in_lower_case() {
+        let r = complete();
+        assert_eq!(r.to_json(), r.to_json());
+        assert!(r.to_json().contains("\"kind\": \"estimate\""));
+        let mut a = complete();
+        a.kind = Kind::Analytic;
+        assert!(a.to_json().contains("\"kind\": \"analytic\""));
+        assert_eq!(ThermalResult::from_json(&a.to_json()).unwrap(), a);
+    }
+
+    #[test]
+    fn a_text_that_is_not_a_result_is_an_error_and_never_a_panic() {
+        for text in ["", " ", "null", "[]", "{", "{}", "12", "\u{feff}{}"] {
+            assert!(
+                matches!(ThermalResult::from_json(text), Err(ThlaError::BadJson(_))),
+                "{text:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_result_without_the_lists_reads_with_empty_lists_and_then_fails_the_check() {
+        let text = r#"{"quantity":"q","value":1.0,"unit":"K","kind":"analytic"}"#;
+        let r = ThermalResult::from_json(text).unwrap();
+        assert!(r.hypotheses.is_empty() && r.validity.is_none());
+        let subjects: Vec<&str> = r.check().iter().map(|f| f.subject).collect();
+        assert_eq!(
+            subjects,
+            [
+                "hypotheses",
+                "boundary_conditions",
+                "materials",
+                "limitations",
+                "uncertainty_percent",
+                "validity"
+            ]
+        );
+    }
+
+    #[test]
+    fn a_field_unknown_to_the_range_is_refused_too() {
+        let text = complete().to_json().replace("\"min\"", "\"low\"");
+        assert!(matches!(
+            ThermalResult::from_json(&text),
+            Err(ThlaError::BadJson(_))
+        ));
+    }
 }
