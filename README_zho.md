@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-68-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.3-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
@@ -31,7 +31,7 @@
 |---|---|
 | 版本 | `0.0.3` |
 | 成熟度 | 脚手架 |
-| 测试 | 3 |
+| 测试 | 68 |
 | 技术栈 | Markdown, Python 3.10+ |
 | 真实硬件 | 尚未在硬件上运行 |
 
@@ -45,8 +45,8 @@
 
 | 领域 | 状态 | 在这里的含义 |
 |---|---|---|
-| 仓库检查 | 🟡 | 仓库检查、图片检查以及基础部分的 3 个测试都在 CI 中运行并通过。 |
-| 测试 | 🟡 | Rust 代码的 38 个测试和基础部分的 3 个测试在计算机上通过。它们只使用测试自己生成的算例和闭式公式的值，以及布置在走线上的模拟热电偶（偏移、噪声、漂移、丢读数、卡死或饱和的传感器）和在模型拒绝处结束的电流斜坡。 |
+| 仓库检查 | 🟡 | 仓库检查、图片检查以及基础部分的 68 个测试都在 CI 中运行并通过。 |
+| 测试 | 🟡 | Rust 代码的 60 个测试和基础部分的 68 个测试在计算机上通过。它们只使用测试自己生成的算例和闭式公式的值，以及布置在走线上的模拟热电偶（偏移、噪声、漂移、丢读数、卡死或饱和的传感器）和在模型拒绝处结束的电流斜坡。 |
 | 真实硬件 | 🟠 | 没有在任何机床或电路板上运行过：这里没有任何内容在硬件上试过。 |
 | 计划的功能 | 🟠 | 已编写：走线的焦耳发热、串联与并联网络、缺少条件就不存在的结果，以及对超出范围或不收敛情形的拒绝。未编写：仿真域的热源、机械工具的几何，以及与测量的对比。 |
 | 需求 | 🟠 | 7 项需求中有 4 项处于原型阶段；热源、与几何的耦合以及与测量的对比仅为计划。没有一项已验证。 |
@@ -80,7 +80,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 测试
 
-基础部分有 3 个测试（`python -I -m unittest discover -s tools -p "test_*.py"`），并且都通过。CI 运行仓库检查、图片检查和这些测试。
+基础部分有 68 个测试（`python -I -m unittest discover -s tools -p "test_*.py"`），并且都通过。CI 运行仓库检查、图片检查和这些测试。
 
 ## 🏗️ 构建与发布
 

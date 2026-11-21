@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/License-GPL%203.0--or--later-blue.svg" alt="GPL 3.0 or later">
   <img src="https://img.shields.io/badge/Stack-Markdown%20%2B%20Python-blue.svg" alt="Markdown and Python">
   <img src="https://img.shields.io/badge/Languages-8-00E5FF.svg" alt="Languages">
-  <img src="https://img.shields.io/badge/Tests-3-2EA043.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/Tests-68-2EA043.svg" alt="Tests">
   <img src="https://img.shields.io/badge/Version-0.0.3-0f6cbd.svg" alt="Version">
   <img src="https://img.shields.io/badge/Maturity-scaffolding-FFB020.svg" alt="Maturity">
 </p>
@@ -31,7 +31,7 @@
 |---|---|
 | Version | `0.0.3` |
 | Maturité | Échafaudage |
-| Tests | 3 |
+| Tests | 68 |
 | Pile technique | Markdown, Python 3.10+ |
 | Sur du matériel réel | Pas encore exécuté sur du matériel |
 
@@ -45,8 +45,8 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
-| Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 3 tests de la base tournent dans la CI et réussissent. |
-| Tests | 🟡 | Les 38 tests du code Rust et les 3 de la base réussissent sur un ordinateur. Ils n'utilisent que des cas faits par les tests eux-mêmes et des valeurs de formule fermée, et un thermocouple simulé sur la piste (décalage, bruit, dérive, pertes de mesure, capteur qui se fige ou sature) avec une rampe de courant qui s'arrête là où le modèle refuse. |
+| Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 68 tests de la base tournent dans la CI et réussissent. |
+| Tests | 🟡 | Les 60 tests du code Rust et les 68 de la base réussissent sur un ordinateur. Ils n'utilisent que des cas faits par les tests eux-mêmes et des valeurs de formule fermée, et un thermocouple simulé sur la piste (décalage, bruit, dérive, pertes de mesure, capteur qui se fige ou sature) avec une rampe de courant qui s'arrête là où le modèle refuse. |
 | Matériel réel | 🟠 | Non exécuté sur une machine ni une carte : rien ici n'a été essayé sur du matériel. |
 | Fonction prévue | 🟠 | Écrit : l'échauffement Joule d'une piste, le réseau en série et en parallèle, le résultat qui refuse d'exister sans ses conditions et le refus des cas hors domaine ou sans convergence. Non écrit : les sources de chaleur du domaine de simulation, la géométrie de l'outil mécanique et la comparaison avec des mesures. |
 | Exigences | 🟠 | 4 des 7 exigences sont au stade de prototype ; les sources de chaleur, le couplage avec la géométrie et la comparaison avec des mesures sont seulement prévus. Aucune n'est validée. |
@@ -80,7 +80,7 @@ python -I -m unittest discover -s tools -p "test_*.py"
 
 ## 🧪 Tests
 
-La base a 3 tests (`python -I -m unittest discover -s tools -p "test_*.py"`), et ils réussissent. La CI exécute le contrôle du dépôt, celui des images et ces tests.
+La base a 68 tests (`python -I -m unittest discover -s tools -p "test_*.py"`), et ils réussissent. La CI exécute le contrôle du dépôt, celui des images et ces tests.
 
 ## 🏗️ Compilation et publication
 
