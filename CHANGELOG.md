@@ -3,6 +3,9 @@
 All notable changes to this project are documented here.
 
 ## [Unreleased]
+
+## [0.0.4] - Simulated bench, requirement register and many more tests
+
 - **More tests, for the shared tools of the base and for the thermal code:** `tools/test_shared_tools.py` adds 65 tests that run the lessons linter, the workflow check, the CHANGELOG check of a pull request and the banner check on small inputs made by the test itself (findings, baselines, exit codes and the shape of what they print). The Rust code gets 22 more: the rise of a trace does not depend on its length, a wider or thicker trace rises less, the same case gives the same bytes every time, an ambient below zero or at the highest temperature is out of validity, numbers at the extremes (1e-300 to the largest float) give an error or a finite rise and never a panic, the result of the settings carries their uncertainty and range, a text that is not a result is an error, every missing condition and every unusable range is named, the judge of the simulated bench stops exactly on the edge of the tolerance, and the seeded generator repeats for the same seed.
 
 - **The threat model says what the code already does:** the rows of `docs/THREAT_MODEL.md` that have a mitigation in the code and a test for it are marked `partial` and name the tests and what is still not covered; the rows without either stay `planned`.
