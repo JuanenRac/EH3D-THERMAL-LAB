@@ -132,6 +132,11 @@ pub fn temperature_rise(case: &NetworkCase, config: &Config) -> Result<ThermalRe
         total += e.resistance(0)?;
     }
     let rise = case.power_w * total;
+    if !rise.is_finite() {
+        return Err(ThlaError::OutOfValidity {
+            what: "the sizes of the case are too extreme to give a finite rise".into(),
+        });
+    }
     if case.ambient_c < 0.0 || case.ambient_c + rise > config.max_temperature_c {
         return Err(ThlaError::OutOfValidity {
             what: format!(

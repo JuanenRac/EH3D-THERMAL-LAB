@@ -70,6 +70,15 @@ pub struct Finding {
     pub message: String,
 }
 
+/// A file of this program is a JSON object: a list would be read field by field by position, with no names to check.
+pub(crate) fn require_object(text: &str) -> Result<(), ThlaError> {
+    if text.trim_start().starts_with('{') {
+        Ok(())
+    } else {
+        Err(ThlaError::BadJson("a JSON object was expected".into()))
+    }
+}
+
 impl ThermalResult {
     /// Everything that keeps this result from being accepted. An empty list means the result carries all its conditions (not that it is right).
     pub fn check(&self) -> Vec<Finding> {
@@ -123,6 +132,7 @@ impl ThermalResult {
 
     /// Read a result from JSON (unknown fields are refused).
     pub fn from_json(text: &str) -> Result<ThermalResult, ThlaError> {
+        require_object(text)?;
         serde_json::from_str(text).map_err(|e| ThlaError::BadJson(e.to_string()))
     }
 
