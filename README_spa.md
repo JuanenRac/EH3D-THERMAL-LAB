@@ -46,7 +46,7 @@ Cada línea es una parte de este repositorio y la luz dice hasta dónde llega ho
 | Área | Estado | Qué significa aquí |
 |---|---|---|
 | Comprobaciones del repositorio | 🟡 | La comprobación del repositorio, la de las imágenes y las 68 pruebas de la base se ejecutan en el CI y pasan. |
-| Pruebas | 🟡 | Las 60 pruebas del código Rust y las 68 de la base pasan en un ordenador. Usan solo casos hechos por las propias pruebas y valores de fórmula cerrada, y un termopar simulado en la pista (desvío, ruido, deriva, pérdidas de lectura, un sensor que se atasca o satura) con una rampa de corriente que termina donde el modelo rechaza. |
+| Pruebas | 🟡 | Las 61 pruebas del código Rust y las 68 de la base pasan en un ordenador. Usan solo casos hechos por las propias pruebas y valores de fórmula cerrada, y un termopar simulado en la pista (desvío, ruido, deriva, pérdidas de lectura, un sensor que se atasca o satura) con una rampa de corriente que termina donde el modelo rechaza. |
 | Hardware real | 🟠 | No se ha ejecutado en ninguna máquina ni placa: nada de aquí se ha probado en hardware. |
 | Función planificada | 🟠 | Escrito: el calentamiento Joule de una pista, la red en serie y en paralelo, el resultado que se niega a existir sin sus condiciones y el rechazo de casos fuera de rango o sin convergencia. Sin escribir: fuentes de calor del dominio de simulación, la geometría de la herramienta mecánica y la comparación con medidas. |
 | Requisitos | 🟠 | 4 de los 7 requisitos están en prototipo; las fuentes de calor, el acoplamiento con la geometría y la comparación con medidas solo están planificados. Ninguno está validado. |

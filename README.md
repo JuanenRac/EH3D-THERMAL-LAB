@@ -46,7 +46,7 @@ Each line is one part of this repository and the light says how far it is today.
 | Area | State | What it means here |
 |---|---|---|
 | Repository checks | 🟡 | The repository check, the check of the pictures and the 68 tests of the base run in CI and pass. |
-| Tests | 🟡 | 60 tests of the Rust code and the 68 of the base pass on a computer. They use only cases made by the tests themselves and closed-form values, and a simulated thermocouple on the trace (offset, noise, drift, dropouts, a sensor that sticks or saturates) with a current ramp that ends where the model refuses. |
+| Tests | 🟡 | 61 tests of the Rust code and the 68 of the base pass on a computer. They use only cases made by the tests themselves and closed-form values, and a simulated thermocouple on the trace (offset, noise, drift, dropouts, a sensor that sticks or saturates) with a current ramp that ends where the model refuses. |
 | Real hardware | 🟠 | Not run on any machine or board: nothing here has been tried on hardware. |
 | Planned function | 🟠 | Written: the Joule heating of a trace, the series and parallel network, the result that refuses to exist without its conditions and the refusal of cases out of range or without convergence. Not written: heat sources from the simulation domain, the geometry of the mechanical tool and the comparison with measurements. |
 | Requirements | 🟠 | 4 of the 7 requirements are at prototype; the heat sources, the coupling with the geometry and the comparison with measurements are only planned. None is validated. |

@@ -6,7 +6,7 @@
 use crate::config::Config;
 use crate::error::ThlaError;
 use crate::network::{self, NetworkCase};
-use crate::result::ThermalResult;
+use crate::result::{require_object, ThermalResult};
 use crate::trace::{self, TraceCase};
 use std::fs;
 use std::io::Write;
@@ -69,13 +69,17 @@ fn dispatch(args: &[String], out: &mut dyn Write) -> Result<i32, Option<ThlaErro
     let bad_json = |e: serde_json::Error| Some(ThlaError::BadJson(e.to_string()));
     match rest.as_slice() {
         ["trace", path] => {
-            let case: TraceCase = serde_json::from_str(&text(path)?).map_err(bad_json)?;
+            let source = text(path)?;
+            require_object(&source).map_err(Some)?;
+            let case: TraceCase = serde_json::from_str(&source).map_err(bad_json)?;
             let result = trace::temperature_rise(&case, &config).map_err(Some)?;
             let _ = writeln!(out, "{}", result.to_json());
             Ok(0)
         }
         ["network", path] => {
-            let case: NetworkCase = serde_json::from_str(&text(path)?).map_err(bad_json)?;
+            let source = text(path)?;
+            require_object(&source).map_err(Some)?;
+            let case: NetworkCase = serde_json::from_str(&source).map_err(bad_json)?;
             let result = network::temperature_rise(&case, &config).map_err(Some)?;
             let _ = writeln!(out, "{}", result.to_json());
             Ok(0)
@@ -189,5 +193,29 @@ mod tests {
         assert_eq!(code, 1, "{err}");
         let badcfg = file(&dir, "d.cfg", "nope = 1\n");
         assert_eq!(run_args(&["--config", &badcfg, "trace", &case]).0, 2);
+    }
+
+    #[test]
+    fn extreme_sizes_and_a_case_written_as_a_list_give_no_result() {
+        let work = tempfile::tempdir().unwrap();
+        let tiny = work.path().join("tiny.json");
+        let list = work.path().join("list.json");
+        std::fs::write(
+            &tiny,
+            r#"{"power_w":1,"ambient_c":20,"elements":[{"type":"conduction","length_mm":1e-322,"conductivity_w_mk":1e-200,"area_mm2":1e-200}]}"#,
+        )
+        .unwrap();
+        std::fs::write(&list, "[1,100,1,35,25,10]").unwrap();
+        let run = |args: &[&str]| {
+            let args: Vec<String> = args.iter().map(|a| a.to_string()).collect();
+            let (mut out, mut err) = (Vec::new(), Vec::new());
+            let code = crate::cli::run(&args, &mut out, &mut err);
+            (code, String::from_utf8(out).unwrap())
+        };
+        assert_eq!(
+            run(&["network", tiny.to_str().unwrap()]),
+            (1, String::new())
+        );
+        assert_eq!(run(&["trace", list.to_str().unwrap()]), (2, String::new()));
     }
 }
