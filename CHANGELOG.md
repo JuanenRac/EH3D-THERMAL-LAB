@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.0.5] - Extreme sizes and unreadable cases are refused
+
 - **No result without a number:** a network with extreme sizes printed a result whose value was empty, with exit code 0. It is now refused as outside the range of validity.
 - **A JSON array is no longer read as a case or a result:** the fields were taken by position, with no names to check. Only an object is read.
 - **1 more test** of the Rust code, for the above.
