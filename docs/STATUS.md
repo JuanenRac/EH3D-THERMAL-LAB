@@ -21,7 +21,7 @@ The official state of each capability is in `REQUIREMENTS.md`. The register has 
 
 ## Known technical debt and omitted tests
 
-* 61 tests of the Rust code (nine of them keep this register true) and the 68 of the base (65 of them test the shared tools of the base); the Rust tests compare with closed-form values and never touch real data.
+* 62 tests of the Rust code (nine of them keep this register true) and the 68 of the base (65 of them test the shared tools of the base); the Rust tests compare with closed-form values and never touch real data.
 * Eight of the tests run the simulated thermocouple (`src/lib.rs`): offset, noise, drift, dropouts, a sensor that sticks or saturates, and a current ramp that ends where the model refuses.
 * Not tested: a comparison with a solver or with a measurement.
 * `cargo deny` is not run yet.

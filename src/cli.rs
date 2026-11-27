@@ -34,6 +34,20 @@ fn read_text(path: &Path, limit: u64) -> Result<String, ThlaError> {
     fs::read_to_string(path).map_err(io)
 }
 
+/// A text from an input file, fit to print on one line: control characters and the Unicode line and paragraph separators become spaces.
+/// Only what is printed goes through here; what is compared or hashed does not.
+fn one_line(text: &str) -> String {
+    text.chars()
+        .map(|c| {
+            if c.is_control() || matches!(c, '\u{2028}' | '\u{2029}') {
+                ' '
+            } else {
+                c
+            }
+        })
+        .collect()
+}
+
 /// Run the command line with the given arguments (without the program name). Returns the exit code.
 pub fn run(args: &[String], out: &mut dyn Write, err: &mut dyn Write) -> i32 {
     match dispatch(args, out) {
@@ -43,7 +57,7 @@ pub fn run(args: &[String], out: &mut dyn Write, err: &mut dyn Write) -> i32 {
             2
         }
         Err(Some(error)) => {
-            let _ = writeln!(err, "error: {error}");
+            let _ = writeln!(err, "error: {}", one_line(&error.to_string()));
             // A case that gives no number is a result of the calculation, not a bad input.
             match error {
                 ThlaError::OutOfValidity { .. } | ThlaError::NotConverged { .. } => 1,
@@ -217,5 +231,34 @@ mod tests {
             (1, String::new())
         );
         assert_eq!(run(&["trace", list.to_str().unwrap()]), (2, String::new()));
+    }
+
+    #[test]
+    fn names_read_from_the_input_cannot_start_a_line_of_their_own() {
+        let work = tempfile::tempdir().unwrap();
+        let file = |name: &str, text: &str| {
+            let path = work.path().join(name);
+            std::fs::write(&path, text).unwrap();
+            path.to_string_lossy().into_owned()
+        };
+        let call = |list: &[&str]| {
+            let args: Vec<String> = list.iter().map(|s| s.to_string()).collect();
+            let (mut out, mut err) = (Vec::new(), Vec::new());
+            let code = run(&args, &mut out, &mut err);
+            let out = String::from_utf8(out).unwrap();
+            let err = String::from_utf8(err).unwrap();
+            for c in out.chars().chain(err.chars()) {
+                assert!(
+                    c == '\n' || !(c.is_control() || c == '\u{2028}' || c == '\u{2029}'),
+                    "{c:?} in {out}{err}"
+                );
+            }
+            (code, out, err)
+        };
+        let unknown = file("unknown.json", r#"{"x\nforged\u2028":1}"#);
+        let (code, _, err) = call(&["trace", &unknown]);
+        assert_eq!(code, 2, "{err}");
+        assert_eq!(err.lines().count(), 1, "{err}");
+        assert!(err.contains("forged"), "{err}");
     }
 }
