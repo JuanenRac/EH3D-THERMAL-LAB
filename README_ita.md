@@ -46,7 +46,7 @@ Ogni riga è una parte di questo repository e il semaforo dice a che punto è og
 | Area | Stato | Cosa significa qui |
 |---|---|---|
 | Controlli del repository | 🟡 | Il controllo del repository, quello delle immagini e i 68 test della base girano nella CI e passano. |
-| Test | 🟡 | I 61 test del codice Rust e i 68 della base passano su un computer. Usano solo casi prodotti dai test stessi e valori di formula chiusa, e una termocoppia simulata sulla pista (scarto, rumore, deriva, perdite di lettura, sensore che si blocca o satura) con una rampa di corrente che finisce dove il modello rifiuta. |
+| Test | 🟡 | I 62 test del codice Rust e i 68 della base passano su un computer. Usano solo casi prodotti dai test stessi e valori di formula chiusa, e una termocoppia simulata sulla pista (scarto, rumore, deriva, perdite di lettura, sensore che si blocca o satura) con una rampa di corrente che finisce dove il modello rifiuta. |
 | Hardware reale | 🟠 | Non eseguito su nessuna macchina né scheda: nulla qui è stato provato su hardware. |
 | Funzione pianificata | 🟠 | Scritto: il riscaldamento Joule di una pista, la rete in serie e in parallelo, il risultato che rifiuta di esistere senza le sue condizioni e il rifiuto dei casi fuori intervallo o senza convergenza. Non scritto: le sorgenti di calore del dominio di simulazione, la geometria dello strumento meccanico e il confronto con le misure. |
 | Requisiti | 🟠 | 4 dei 7 requisiti sono a livello di prototipo; le sorgenti di calore, l'accoppiamento con la geometria e il confronto con le misure sono solo pianificati. Nessuno è validato. |

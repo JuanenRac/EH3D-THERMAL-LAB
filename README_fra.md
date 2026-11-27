@@ -46,7 +46,7 @@ Chaque ligne est une partie de ce dépôt et le feu dit où elle en est aujourd'
 | Domaine | État | Ce que cela veut dire ici |
 |---|---|---|
 | Contrôles du dépôt | 🟡 | Le contrôle du dépôt, celui des images et les 68 tests de la base tournent dans la CI et réussissent. |
-| Tests | 🟡 | Les 61 tests du code Rust et les 68 de la base réussissent sur un ordinateur. Ils n'utilisent que des cas faits par les tests eux-mêmes et des valeurs de formule fermée, et un thermocouple simulé sur la piste (décalage, bruit, dérive, pertes de mesure, capteur qui se fige ou sature) avec une rampe de courant qui s'arrête là où le modèle refuse. |
+| Tests | 🟡 | Les 62 tests du code Rust et les 68 de la base réussissent sur un ordinateur. Ils n'utilisent que des cas faits par les tests eux-mêmes et des valeurs de formule fermée, et un thermocouple simulé sur la piste (décalage, bruit, dérive, pertes de mesure, capteur qui se fige ou sature) avec une rampe de courant qui s'arrête là où le modèle refuse. |
 | Matériel réel | 🟠 | Non exécuté sur une machine ni une carte : rien ici n'a été essayé sur du matériel. |
 | Fonction prévue | 🟠 | Écrit : l'échauffement Joule d'une piste, le réseau en série et en parallèle, le résultat qui refuse d'exister sans ses conditions et le refus des cas hors domaine ou sans convergence. Non écrit : les sources de chaleur du domaine de simulation, la géométrie de l'outil mécanique et la comparaison avec des mesures. |
 | Exigences | 🟠 | 4 des 7 exigences sont au stade de prototype ; les sources de chaleur, le couplage avec la géométrie et la comparaison avec des mesures sont seulement prévus. Aucune n'est validée. |

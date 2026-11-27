@@ -7,6 +7,8 @@ All notable changes to this project are documented here.
 - **No result without a number:** a network with extreme sizes printed a result whose value was empty, with exit code 0. It is now refused as outside the range of validity.
 - **A JSON array is no longer read as a case or a result:** the fields were taken by position, with no names to check. Only an object is read.
 - **1 more test** of the Rust code, for the above.
+- **A name read from a file can no longer forge a line of the output:** line breaks and control characters in the error messages are printed as spaces. What is compared, hashed and the exit codes do not change.
+- **1 more test** of the Rust code, for the above.
 
 ## [0.0.4] - Simulated bench, requirement register and many more tests
 
